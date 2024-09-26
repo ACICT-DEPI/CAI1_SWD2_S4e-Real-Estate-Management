@@ -2,6 +2,7 @@ import { useSession } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
+// Fetch URL and key from environment variables
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
