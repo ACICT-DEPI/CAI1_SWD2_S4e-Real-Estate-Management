@@ -1,7 +1,21 @@
-import "./App.css";
+
+import { SignedIn, SignedOut, SignInButton, useSession } from "@clerk/clerk-react";
+import Form from "./components/add-property/Form";
+
 
 function App() {
-  return <></>;
+  return (
+    <>
+      
+        <SignedIn>
+            <Form />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+      
+    </>
+  );
 }
 
 export default App;
