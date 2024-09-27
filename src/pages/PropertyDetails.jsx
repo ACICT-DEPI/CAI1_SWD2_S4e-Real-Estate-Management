@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BiBed, BiBath } from "react-icons/bi";
-import supabaseClient from '../backend/supabase/supabase';
 import { MdLocationOn } from 'react-icons/md';
 import { MdHome } from 'react-icons/md';
 import { FaShare, FaClipboard, FaParking } from 'react-icons/fa';
@@ -10,6 +9,7 @@ import { FaRulerCombined } from 'react-icons/fa';
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
 import Swal from 'sweetalert2';
 import Map from '@/components/Home/Map';
+import useSupabaseClient from '../backend/supabase/supabase';
 
 const PropertyDetails = () => {
     const { id } = useParams();
@@ -19,11 +19,11 @@ const PropertyDetails = () => {
     const [message, setMessage] = useState('');
     const [senderName, setSenderName] = useState('');
     const [email, setEmail] = useState('');
-
+    const supabase = useSupabaseClient();
     useEffect(() => {
         const fetchHouseData = async () => {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('properties')
                     .select(`property_id, address, price, property_type, country, state, seller_phone, Bedrooms, Bathrooms, surface_area, zip_code, created_at, description, latitude, longitude, ParkingSpaces`)
                     .eq('property_id', id)
@@ -39,9 +39,10 @@ const PropertyDetails = () => {
                 console.error("Error fetching data from Supabase:", err);
             }
         };
-
-        fetchHouseData();
-    }, [id]);
+        if(supabase && id){
+            fetchHouseData();
+        }
+    }, [id,supabase]);
 
     if (loading) {
         return <div className="text-center">Loading property details...</div>;
