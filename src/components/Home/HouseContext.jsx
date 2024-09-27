@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import supabaseClient from '../../backend/supabase/supabase'; // Adjust this import based on your Supabase client setup
+import useSupabaseClient from '../../backend/supabase/supabase';
 
 export const HouseContext = createContext();
 
@@ -11,12 +11,13 @@ const HouseContextProvider = ({ children }) => {
     const [properties, setProperties] = useState([]);
     const [price, setPrice] = useState('Price range (any)');
     const [loading, setLoading] = useState(false);
+    const supabase = useSupabaseClient();
 
     // Fetch houses from Supabase
     const fetchHouses = async () => {
         setLoading(true);
-        const { data, error } = await supabaseClient
-            .from('houses') // Adjust table name according to your Supabase setup
+        const { data, error } = await supabase
+            .from('properties') // Adjust table name according to your Supabase setup
             .select('*');
 
         if (error) {
@@ -28,8 +29,10 @@ const HouseContextProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchHouses(); // Fetch houses on component mount
-    }, []);
+        if(supabase){
+            fetchHouses();
+        } // Fetch houses on component mount
+    }, [supabase]);
 
     useEffect(() => {
         const allCountries = houses.map((house) => house.country);

@@ -199,9 +199,8 @@ export default function AntdForm() {
                         help={errors.propertyType}
                     >
                         <Select value={propertyType} onChange={setPropertyType}>
-                            <Option value="house">House</Option>
-                            <Option value="apartment">Apartment</Option>
-                            <Option value="office">Office</Option>
+                            <Option value="rent">For Rent</Option>
+                            <Option value="sale">For Sale</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item

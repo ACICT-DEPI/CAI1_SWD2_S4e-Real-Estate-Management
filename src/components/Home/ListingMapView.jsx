@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import House from './House';
-import supabaseClient from '../../backend/supabase/supabase';
 import Map from './Map';
+import useSupabaseClient from '../../backend/supabase/supabase';
 
 const capitalizeFirstLetter = (string) => {
     if (!string) return "";
@@ -11,11 +11,12 @@ const capitalizeFirstLetter = (string) => {
 function ListingMapView() {
     const [houseData, setHouseData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const supabase = useSupabaseClient()
 
     useEffect(() => {
         const fetchHouseData = async () => {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('properties')
                     .select('property_id, price, country, state, property_type, Bedrooms, Bathrooms, address, surface_area, latitude, longitude, ParkingSpaces');
     
@@ -45,9 +46,10 @@ function ListingMapView() {
                 console.error("Error fetching data from Supabase:", err.message);
             }
         };
-    
-        fetchHouseData();
-    }, []);
+        if(supabase){
+            fetchHouseData();
+        }
+    }, [supabase]);
 
     if (loading) {
         return <div>Loading properties...</div>;

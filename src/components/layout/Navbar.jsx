@@ -7,9 +7,11 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -94,6 +96,7 @@ const Navbar = () => {
             <Button
               type="Dashed  "
               className=" ml-4 font-semibold shadow text-white rounded-full w-28 h-9 bg-indigo-500 hover:text-black "
+              onClick={()=>{navigate('add-property')}}
             >
               Add Property
             </Button>

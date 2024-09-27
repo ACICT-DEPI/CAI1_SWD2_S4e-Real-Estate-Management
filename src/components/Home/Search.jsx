@@ -7,7 +7,8 @@
 
     const Search = () => {
 
-    const {handleClick} = useContext(HouseContext);
+    const House = useContext(HouseContext);
+    const {handleClick} = House;
 
     return (
         <div className='px-[30px] py-6 max-w-[1170px]
