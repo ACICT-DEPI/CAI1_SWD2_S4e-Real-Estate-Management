@@ -13,7 +13,9 @@ const useSupabaseClient = () => {
   useEffect(() => {
     const createSupabaseClient = async () => {
       if (session) {
-        const supabaseAccessToken = await session.getToken({ template: 'supabase' });
+        const supabaseAccessToken = await session.getToken({
+          template: "supabase",
+        });
         if (supabaseAccessToken) {
           const supabase = createClient(supabaseUrl, supabaseKey, {
             global: {
@@ -23,14 +25,14 @@ const useSupabaseClient = () => {
             },
           });
           setSupabaseClient(supabase);
-          console.log("Private access")
+          console.log("Private access");
         } else {
           setSupabaseClient(createClient(supabaseUrl, supabaseKey));
-          console.log("Public assess")
+          console.log("Public assess");
         }
       } else {
         setSupabaseClient(createClient(supabaseUrl, supabaseKey));
-        console.log("Public access")
+        console.log("Public access");
       }
     };
 

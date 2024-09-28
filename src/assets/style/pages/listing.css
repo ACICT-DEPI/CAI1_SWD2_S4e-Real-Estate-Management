@@ -1,0 +1,16 @@
+table {
+  background-color: #f8f4ff !important;
+}
+
+th {
+  background-color: #f1e9ff !important;
+}
+
+/* pagination */
+.ant-pagination-item-active {
+  border-color: #6d28d9 !important;
+}
+
+.ant-pagination-item-active a {
+  color: #6d28d9 !important;
+}
