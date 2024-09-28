@@ -6,6 +6,7 @@ import LandingPage from "./Pages/LandingPage";
 import AddOrder from "./Pages/AddOrder";
 import OrderComponent from "./Pages/loadOrders";
 import ContactUs from "./Pages/ContactUsPage";
+import About from "./pages/About"
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -38,6 +39,6 @@ function App() {
     </>
   );
 }
-how
+
 export default App;
 
