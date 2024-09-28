@@ -1,27 +1,43 @@
-import Navbar from "./components/layout/Navbar";
-import { Routes, Route } from 'react-router-dom';
-import PropertyDetails from './pages/PropertyDetails';
-import Home from "./pages/Home";
-import Footer from "./components/layout/Footer";
-import Form from "./components/add-property/Form"
-import Listing from "./pages/Listing";
-
+import "./App.css";
+import { useUser } from "@clerk/clerk-react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AppLayout from "./components/layout/AppLayout";
+import LandingPage from "./Pages/LandingPage";
+import AddOrder from "./Pages/AddOrder";
+import OrderComponent from "./Pages/loadOrders";
+import ContactUs from "./Pages/ContactUsPage";
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/AddOrder",
+        element: <AddOrder />,
+      },
+      {
+        path: "/loadOrders",
+        element: <OrderComponent />,
+      },
+      {
+        path: "/ContactUs",
+        element: <ContactUs />,
+      },
+    ],
+  },
+]);
 
 function App() {
 
   return (
-    <div className='max-w-[1440px] mx-auto bg-white'>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/property/:id" element={<PropertyDetails />} />
-        <Route path="/add-property" element={<Form />} />
-        <Route path="/listing" element={<Listing />} />
-      </Routes>
-      <Footer />
-    </div>
+    <>
+      <RouterProvider router={router} />
+    </>
   );
 }
-
+how
 export default App;
 
