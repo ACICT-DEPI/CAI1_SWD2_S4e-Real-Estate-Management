@@ -1,10 +1,10 @@
 import Navbar from "./components/layout/Navbar";
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PropertyDetails from './pages/PropertyDetails';
 import Home from "./pages/Home";
 import Footer from "./components/layout/Footer";
 import Form from "./components/add-property/Form"
+import Listing from "./pages/Listing";
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/add-property" element={<Form />} />
+        <Route path="/listing" element={<Listing />} />
       </Routes>
       <Footer />
     </div>
