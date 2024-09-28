@@ -2,24 +2,35 @@ import React, { useState } from "react";
 import logo from "../../assets/Logo.svg";
 import { Button } from "antd";
 import {
+  SignIn,
   SignInButton,
+  SignUp,
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
+import { BriefcaseBusiness, DotIcon } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
+  const handleOverlay = (e) => {
+    if (e.target === e.currentTarget) {
+      setShowSignIn(false);
+      setShowSignUp(false);
+    }
+  };
   return (
     <>
       <div>
         <nav className="flex items-center justify-between me-4 border-none">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" aria-label="Homepage">
-              <img src={logo} alt="Logo" className="h-24" />
-            </a>
+            <Link to="/">
+              <img src={logo} alt="Company Logo" className="h-24" />
+            </Link>
           </div>
 
           {/* Hamburger */}
@@ -35,71 +46,118 @@ const Navbar = () => {
           {/* Links */}
           <div
             className={`md:flex ${
-              isMenuOpen ? "block" : "hidden"
-            } absolute md:static bg-white w-full md:w-auto z-10`}
+              isMenuOpen ? "block mt-20 md:mt-0 " : "hidden mt-0"
+            } absolute md:static  w-full md:w-auto z-10`}
           >
-            <ul className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 p-4 md:p-0">
-              <li>
-                <a
-                  href="/Home"
+            <ul className="flex flex-col bg-white md:flex-row space-y-4 md:space-y-0 md:space-x-10 p-4 md:p-0">
+              <li className="flex">
+                <Link
+                  to="/"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="Home"
                 >
                   Home
-                </a>
+                </Link>
+                <p
+                  className="ms-64 md:hidden sm:block "
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  &#9932;
+                </p>
               </li>
               <li>
-                <a
-                  href="/Property"
+                <Link
+                  to="/property"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="Property"
                 >
                   Property
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/About"
+                <Link
+                  to="/about"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="About"
                 >
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/Contact"
+                <Link
+                  to="/contact"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="Contact"
                 >
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Buttons */}
-          <div className="flex items-center ">
-            <Button
-              type="Default "
-              className=" font-semibold shadow rounded-full w-28 h-9  hover:bg-indigo-500 hover:text-white"
-            >
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </Button>
-            <Button
-              type="Dashed  "
-              className=" ml-4 font-semibold shadow text-white rounded-full w-28 h-9 bg-indigo-500 hover:text-black "
-            >
-              Add Property
-            </Button>
+          <div className=" flex gap-5 items-center ">
+            <SignedOut>
+              <Button
+                variant="outline"
+                className=" font-semibold shadow rounded-full w-28 h-9 "
+                onClick={() => setShowSignUp(true)}
+              >
+                SignUp
+              </Button>
+              <Button
+                type="Dashed  "
+                className="  font-semibold shadow text-white rounded-full w-28 h-9 bg-indigo-500 hover:bg-indigo-600 "
+                onClick={() => setShowSignIn(true)}
+              >
+                SignIn
+              </Button>
+            </SignedOut>
+            <SignedIn>
+              <Button
+                type="Dashed  "
+                className="  font-semibold shadow text-white rounded-full w-24 h-9 bg-indigo-500 hover:bg-indigo-600 "
+                style={{ fontSize: "11px" }}
+              >
+                Add Property
+              </Button>
+              <Link to="/"></Link>
+
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10",
+                  },
+                }}
+              >
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Orders"
+                    labelIcon={<BriefcaseBusiness size={15} />}
+                    href="/OrderComponent"
+                  />
+                </UserButton.MenuItems>
+              </UserButton>
+            </SignedIn>
           </div>
         </nav>
       </div>
+      {showSignUp && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={handleOverlay}
+        >
+          <SignUp />
+        </div>
+      )}
+      {showSignIn && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={handleOverlay}
+        >
+          <SignIn />
+        </div>
+      )}
     </>
   );
 };
