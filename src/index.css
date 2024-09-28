@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+@layer base {
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Pacifico&display=swap');
+
+    body {
+        @apply bg-gray-200;
+    }
+
+    .dropdown {
+        @apply w-full lg:max-w-[296px] cursor-pointer;
+    }
+
+    .dropdown-btn {
+        @apply flex h-[64px] items-center px-[18px] border rounded-lg;
+    }
+
+    .dropdown-icon-primary {
+        @apply text-2xl mr-[18px] text-violet-700;
+    }
+
+    .dropdown-icon-secondary {
+        @apply text-2xl text-violet-700 ml-auto;
+    }
+
+    .dropdown-menu {
+        @apply px-6 py-8 text-[15px] space-y-6 shadow-md bg-white absolute w-full list-none rounded-b-lg; /* Use custom z-1000 class */
+    }
+
+    /* Leaflet marker fix */
+    .leaflet-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .leaflet-popup-content {
+        min-width: 150px; /* Optional: Adjust the minimum width of the popup */
+    }
+}

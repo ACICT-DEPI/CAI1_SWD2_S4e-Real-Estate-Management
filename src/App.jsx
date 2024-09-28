@@ -31,11 +31,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+
   return (
     <>
       <RouterProvider router={router} />
     </>
   );
 }
-
+how
 export default App;
+
