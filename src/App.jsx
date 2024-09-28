@@ -5,6 +5,7 @@ import PropertyDetails from './pages/PropertyDetails';
 import Home from "./pages/Home";
 import Footer from "./components/layout/Footer";
 import Form from "./components/add-property/Form"
+import About from "./pages/About"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/add-property" element={<Form />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
     </div>
