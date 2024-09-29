@@ -17,18 +17,18 @@ const Footer = () => {
                   Home
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="property" className="hover:text-gray-300">
                   Property
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link to="about" className="hover:text-gray-300">
+                <Link to="About" className="hover:text-gray-300">
                   About
                 </Link>
               </li>
               <li>
-                <Link to="contact" className="hover:text-gray-300">
+                <Link to="ContactUs" className="hover:text-gray-300">
                   Contact Us
                 </Link>
               </li>
