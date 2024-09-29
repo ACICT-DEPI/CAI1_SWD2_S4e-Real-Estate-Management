@@ -3,6 +3,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { SiInstagram } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -12,24 +13,24 @@ const Footer = () => {
           <div className="mb-4">
             <ul className="mt-2 space-y-2">
               <li>
-                <a href="#" className="hover:text-gray-300">
+                <Link to="/" className="hover:text-gray-300">
                   Home
-                </a>
+                </Link>
               </li>
-              <li>
-                <a href="#" className="hover:text-gray-300">
+              {/* <li>
+                <Link to="property" className="hover:text-gray-300">
                   Property
-                </a>
-              </li>
+                </Link>
+              </li> */}
               <li>
-                <a href="#" className="hover:text-gray-300">
+                <Link to="About" className="hover:text-gray-300">
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-300">
+                <Link to="ContactUs" className="hover:text-gray-300">
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -37,24 +38,40 @@ const Footer = () => {
             <h5 className="text-xl font-bold">Follow Us</h5>
             <ul className="flex space-x-4 mt-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link
+                  to="https://www.facebook.com"
+                  target="_blank"
+                  className="text-gray-400 hover:text-white"
+                >
                   <FaFacebookSquare className="w-7 h-7 fill-current" />
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link
+                  to="https://www.instagram.com"
+                  target="_blank"
+                  className="text-gray-400 hover:text-white"
+                >
                   <SiInstagram className="w-7 h-7 fill-current" />
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link
+                  to="https://x.com"
+                  target="_blank"
+                  className="text-gray-400 hover:text-white"
+                >
                   <FaXTwitter className="w-7 h-7 fill-current" />
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <Link
+                  to="https://www.linkedin.com"
+                  target="_blank"
+                  className="text-gray-400 hover:text-white"
+                >
                   <FaLinkedin className="w-7 h-7 fill-current" />
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

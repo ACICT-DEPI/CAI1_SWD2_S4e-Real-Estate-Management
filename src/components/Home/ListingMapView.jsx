@@ -19,7 +19,7 @@ function ListingMapView() {
     useEffect(() => {
         const fetchHouseData = async () => {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('properties')
                     .select('property_id, price, country, state, property_type, Bedrooms, Bathrooms, address, surface_area, latitude, longitude, ParkingSpaces, images, is_available');
     

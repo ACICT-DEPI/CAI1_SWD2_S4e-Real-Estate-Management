@@ -9,6 +9,7 @@ const HouseContextProvider = ({ children }) => {
     const [property, setProperty] = useState('Property type (any)');
     const [price, setPrice] = useState('Price range (any)');
     const [loading, setLoading] = useState(false);
+    const supabase = useSupabaseClient();
 
     // Fetch houses from Supabase
     const fetchHouses = async () => {
@@ -26,8 +27,10 @@ const HouseContextProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchHouses(); // Fetch houses on component mount
-    }, []);
+        if(supabase){
+            fetchHouses();
+        } // Fetch houses on component mount
+    }, [supabase]);
 
     const handleClick = (searchAddress) => {
         setLoading(true);
