@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/Logo.svg";
 import { Button } from "antd";
 import {
@@ -9,13 +9,15 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BriefcaseBusiness, Store } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+  const location = useLocation();
+
   const handleOverlay = (e) => {
     if (e.target === e.currentTarget) {
       setShowSignIn(false);
@@ -27,6 +29,13 @@ const Navbar = () => {
   const handleOpenMyProp = () => {
     navigate("/MyProperty");
   };
+  useEffect(() => {
+    // Check if the current URL has the 'sign-in' query parameter
+    const params = new URLSearchParams(location.search);
+    if (params.get("sign-in") === "true") {
+      setShowSignIn(true);
+    }
+  }, [location.search]);
   return (
     <>
       <div>

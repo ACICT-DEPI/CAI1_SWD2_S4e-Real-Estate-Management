@@ -8,6 +8,7 @@ import Listing from "./pages/Listing";
 import ContactUs from "./pages/ContactUsPage";
 import About from "./pages/About";
 import EditProperty from "./pages/EditProperty";
+import ProtectRoute from "./components/ProtectedRoute/ProtectRoute";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -18,19 +19,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/property/:id",
-        element: <PropertyDetails />,
+        element: (
+          <ProtectRoute>
+            <PropertyDetails />
+          </ProtectRoute>
+        ),
       },
       {
         path: "/AddProperty",
-        element: <AddProperty />,
+        element: (
+          <ProtectRoute>
+            <AddProperty />
+          </ProtectRoute>
+        ),
       },
       {
         path: "/MyProperty",
-        element: <Listing />,
+        element: (
+          <ProtectRoute>
+            <Listing />
+          </ProtectRoute>
+        ),
       },
       {
         path: "/MyProperty/edit/:id",
-        element: <EditProperty />,
+        element: (
+          <ProtectRoute>
+            <EditProperty />
+          </ProtectRoute>
+        ),
       },
       {
         path: "/ContactUs",
