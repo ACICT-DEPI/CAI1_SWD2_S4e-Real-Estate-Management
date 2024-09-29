@@ -7,7 +7,7 @@ import AddProperty from "./pages/AddProperty";
 import Listing from "./pages/Listing";
 import ContactUs from "./pages/ContactUsPage";
 import About from "./pages/About";
-// import EditProperty from "./pages/EditProperty";
+import EditProperty from "./pages/EditProperty";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -28,10 +28,10 @@ const router = createBrowserRouter([
         path: "/MyProperty",
         element: <Listing />,
       },
-      // {
-      //   path: "/MyProperty/edit/:id",
-      //   element: <EditProperty />,
-      // },
+      {
+        path: "/MyProperty/edit/:id",
+        element: <EditProperty />,
+      },
       {
         path: "/ContactUs",
         element: <ContactUs />,

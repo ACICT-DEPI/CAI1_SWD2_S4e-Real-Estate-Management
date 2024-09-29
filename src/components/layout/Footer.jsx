@@ -92,7 +92,7 @@ const Footer = () => {
                 className="p-2 bg-gray-600 text-white rounded-r-md hover:bg-gray-500"
                 type="button"
               >
-                Send
+                <a href="mailto:abdallahedreeso2@gmail.com">mail</a>
               </button>
             </form>
           </div>
