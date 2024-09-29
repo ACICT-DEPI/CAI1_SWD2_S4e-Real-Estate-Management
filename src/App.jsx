@@ -2,27 +2,32 @@ import "./App.css";
 import { useUser } from "@clerk/clerk-react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
-import LandingPage from "./Pages/LandingPage";
-import AddOrder from "./Pages/AddOrder";
-import OrderComponent from "./Pages/loadOrders";
-import ContactUs from "./Pages/ContactUsPage";
-import About from "./pages/About"
+import Home from "./pages/Home";
+import PropertyDetails from "./pages/PropertyDetails";
+import AddProperty from "./pages/AddProperty";
+import Listing from "./pages/Listing";
+import ContactUs from "./pages/ContactUsPage";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
       {
         path: "/",
-        element: <LandingPage />,
+        element: <Home />,
       },
       {
-        path: "/AddOrder",
-        element: <AddOrder />,
+        path: "/PropertyDetails/:id",
+        element: <PropertyDetails />,
       },
       {
-        path: "/loadOrders",
-        element: <OrderComponent />,
+        path: "/AddProperty",
+        element: <AddProperty />,
       },
+      {
+        path: "/Property",
+        element: <Listing />,
+      },
+      Listing,
       {
         path: "/ContactUs",
         element: <ContactUs />,
@@ -32,13 +37,10 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-
   return (
     <>
       <RouterProvider router={router} />
     </>
   );
 }
-
 export default App;
-
