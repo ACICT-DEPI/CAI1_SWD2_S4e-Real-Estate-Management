@@ -1,4 +1,4 @@
-import AntdForm from "@/components/add-property/PropForm";
+import AntdForm from "@/components/add-property/Form";
 
 const AddProperty = () => {
   return (
