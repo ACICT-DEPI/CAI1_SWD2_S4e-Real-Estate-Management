@@ -9,8 +9,8 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
-import { Link } from "react-router-dom";
-import { BriefcaseBusiness, DotIcon } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { BriefcaseBusiness, Store } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +21,11 @@ const Navbar = () => {
       setShowSignIn(false);
       setShowSignUp(false);
     }
+  };
+  const navigate = useNavigate();
+
+  const handleOpenMyProp = () => {
+    navigate("/MyProperty");
   };
   return (
     <>
@@ -65,7 +70,7 @@ const Navbar = () => {
                   &#9932;
                 </p>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/property"
                   className="text-gray-600 hover:text-indigo-500"
@@ -73,10 +78,10 @@ const Navbar = () => {
                 >
                   Property
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
-                  to="/about"
+                  to="/About"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="About"
                 >
@@ -85,7 +90,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  to="/contact"
+                  to="/ContactUs"
                   className="text-gray-600 hover:text-indigo-500"
                   aria-label="Contact"
                 >
@@ -114,15 +119,15 @@ const Navbar = () => {
               </Button>
             </SignedOut>
             <SignedIn>
-              <Button
-                type="Dashed  "
-                className="  font-semibold shadow text-white rounded-full w-24 h-9 bg-indigo-500 hover:bg-indigo-600 "
-                style={{ fontSize: "11px" }}
-              >
-                Add Property
-              </Button>
-              <Link to="/"></Link>
-
+              <Link to="/AddProperty">
+                <Button
+                  type="Dashed  "
+                  className=" font-semibold shadow text-white rounded-full w-24 h-9 bg-indigo-500 hover:bg-indigo-600 "
+                  style={{ fontSize: "11px" }}
+                >
+                  Add Property
+                </Button>
+              </Link>
               <UserButton
                 appearance={{
                   elements: {
@@ -131,10 +136,10 @@ const Navbar = () => {
                 }}
               >
                 <UserButton.MenuItems>
-                  <UserButton.Link
-                    label="My Orders"
-                    labelIcon={<BriefcaseBusiness size={15} />}
-                    href="/OrderComponent"
+                  <UserButton.Action
+                    label="My Properties"
+                    labelIcon={<Store size={15} />}
+                    onClick={handleOpenMyProp}
                   />
                 </UserButton.MenuItems>
               </UserButton>
