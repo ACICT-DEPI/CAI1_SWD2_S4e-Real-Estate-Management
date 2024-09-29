@@ -102,6 +102,7 @@ export default function AntdForm({ property, id }) {
       newErrors.city = "City cannot consist only of numbers.";
     } else if (city && !englishLettersNumericOnlyRegex.test(city)) {
       newErrors.city = "Field should contain only English letters and numbers.";
+
     }
 
     if (zip && !zipCodeRegex.test(zip)) {
@@ -157,7 +158,7 @@ export default function AntdForm({ property, id }) {
   };
 
   const customRequest = async ({ file, onSuccess, onError }) => {
-    console.log(images);
+    console.log(images);                                                                      
     try {
       const imageName = `${file.uid}`;
       const { data, error } = await supabase.storage
@@ -196,26 +197,6 @@ export default function AntdForm({ property, id }) {
     },
   };
 
-  //     let uploadedImagePaths = [];
-  //     for (const image of images) {
-  //         const imageName = `${image.uid}`;
-  //         const { data, error } = await supabase.storage
-  //             .from('images') // Ensure this is your correct bucket name
-  //             .upload(imageName, image.originFileObj, {
-  //                 contentType: image.type,
-  //             });
-
-  //         if (error) {
-  //             message.error(`Failed to upload ${image.name}`);
-  //             return []; // Return empty if any file fails to upload
-  //         }
-
-  //         uploadedImagePaths.push(data.path); // Collect uploaded image paths
-  //     }
-
-  //     return uploadedImagePaths;
-  // };
-
   const handleSubmit = async () => {
     if (validate()) {
       let imageUrls = [];
@@ -251,20 +232,6 @@ export default function AntdForm({ property, id }) {
       if (response) {
         message.success("Form submitted successfully");
         navigate("/MyProperty");
-        // setTitle('')
-        // setPrice('')
-        // setPropertyType(null)
-        // setDescription('')
-        // setState(null)
-        // setCity('')
-        // setZip('')
-        // setAddress('')
-        // setBedrooms('')
-        // setBathrooms('')
-        // setParkingSpaces('')
-        // setSurfaceArea('')
-        // setPhone('')
-        // setImages([]);
       } else {
         message.error("server error, please try again later");
       }
@@ -474,25 +441,7 @@ export default function AntdForm({ property, id }) {
               placeholder="Required..."
             />
           </Form.Item>
-          {/* <Space
-                        direction="vertical"
-                        style={{
-                            width: '100%',
-                        }}
-                        size="large"
-                    >
-                        <Upload
-                            customRequest={()=>{}}
-                            fileList={images}
-                            onChange={({ fileList }) => setImages(fileList)}
-                            listType="picture"
-                            accept="image/png, image/gif, image/jpeg"
-                            maxCount={3}
-                            multiple
-                        >
-                            <Button icon={<UploadOutlined />}>Upload (Max: 3)</Button>
-                        </Upload>
-                    </Space> */}
+
           <Upload {...props} customRequest={customRequest}>
             <Button icon={<UploadOutlined />}>Upload</Button>
           </Upload>
