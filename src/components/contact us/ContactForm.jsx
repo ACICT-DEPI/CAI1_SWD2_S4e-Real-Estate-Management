@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 import { Input, Button, Card, Form, Typography, message } from "antd";
 import useSupabaseClient from "@/backend/supabase/supabase";
-import InserthData from "@/api/contact us/InsertData";
-import FetchData from "@/api/contact us/FetchData";
-
+import emailjs from 'emailjs-com';
 const { TextArea } = Input;
 const { Title } = Typography;
 
 export default function ContactForm() {
   const [subject, setSubject] = useState("");
   const [email, setEmail] = useState(""); // New email state
-  const [message, setMessage] = useState("");
+  const [body, setBody] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
-  const supabase = useSupabaseClient();
+
   const englishRegex = /^[a-zA-Z0-9\s.,'-]+$/;
   const numericOnlyRegex = /^\d+$/;
   const englishLettersOnlyRegex = /^[a-zA-Z\s]+$/;
-  const internationalPhoneRegex =
-    /^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+  const egyptianPhoneRegex = /^(?:\+20|0020)?01[0125]\d{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email regex
 
   const validate = () => {
@@ -38,10 +35,13 @@ export default function ContactForm() {
       newErrors.email = "Enter a valid email address.";
     }
 
-    if (message && numericOnlyRegex.test(message)) {
-      newErrors.message = "Message cannot consist only of numbers.";
-    } else if (message && !englishRegex.test(message)) {
-      newErrors.message = "Message must contain only English characters.";
+    if(!body){
+      newErrors.body = "body is required.";
+    }
+    if (numericOnlyRegex.test(body)) {
+      newErrors.body = "body cannot consist only of numbers.";
+    } else if (!englishRegex.test(body)) {
+      newErrors.body = "body must contain only English characters.";
     }
     if (!firstName) {
       newErrors.firstName = "First Name is required.";
@@ -57,8 +57,8 @@ export default function ContactForm() {
 
     if (!phone) {
       newErrors.phoneNumber = "Phone number is required.";
-    } else if (!internationalPhoneRegex.test(phone)) {
-      newErrors.phoneNumber = "Enter a valid phone number.";
+    } else if (!egyptianPhoneRegex.test(phone)) {
+      newErrors.phoneNumber = "Enter a valid egyptian phone number.";
     }
 
     setErrors(newErrors);
@@ -67,32 +67,37 @@ export default function ContactForm() {
 
   const handleSubmit = async () => {
     if (validate()) {
-      let propertyData = {
+      let formData = {
         subject,
         email,
-        message,
+        body,
         firstName,
         lastName,
         seller_phone: phone,
       };
-
-      const response = await InserthData(supabase, propertyData);
-      if (response) {
+      emailjs.send(
+        'service_14n2tub',     // Replace with your EmailJS service ID
+        'template_7jh3nau',    // Replace with your EmailJS template ID
+        formData,
+        'wTm29m44MLbQaNTd3'         // Replace with your EmailJS user ID
+      ).then((response) => {
+        console.log('Email sent successfully!', response.status, response.text);
         message.success("Form submitted successfully");
-        setSubject("");
-        setEmail("");
-        setMessage("");
-        setFirstName("");
-        setLastName("");
-        setPhone("");
-      } else {
-        message.error("Server error, please try again later");
-      }
+        setFirstName('')
+        setLastName('')
+        setSubject('')
+        setEmail('')
+        setBody('')
+        setPhone('')
+        
+      }).catch((err) => {
+        console.error('Failed to send email.', err);
+        message.error("server side error, please try again later");
+      });
     } else {
       message.error("Please fix the errors.");
     }
-    const getdata = await FetchData(supabase);
-    console.log(getdata);
+
   };
 
   return (
@@ -162,14 +167,14 @@ export default function ContactForm() {
             />
           </Form.Item>
           <Form.Item
-            label="Message"
-            validateStatus={errors.message ? "error" : ""}
-            help={errors.message}
+            label="body"
+            validateStatus={errors.body ? "error" : ""}
+            help={errors.body}
           >
             <TextArea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Optional..."
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="Required..."
               rows={8}
             />
           </Form.Item>
