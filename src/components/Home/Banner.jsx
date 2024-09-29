@@ -1,44 +1,67 @@
-    import React from 'react';
-    import Image from "../../assets/img/house-banner.png";
-    import Search from "../Home/Search";
+import React, { useEffect, useState } from 'react';
+import Image from "../../assets/img/house-banner.png";
+import Search from "./Search";
+import supabaseClient from '../../backend/supabase/supabase';
 
-    const Banner = () => {
-    return (
-        <section className='h-full max-h-[640px] mb-8
-        xl:mb-32'>
-        <div className='flex flex-col lg:flex-row'>
+const Banner = () => {
+    const [houses, setHouses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-            <div className='lg:ml-8 xl:ml-[135px]
-            flex flex-col items-center lg:items-start 
-            text-center lg:text-left justify-center 
-            flex-1 px-4 lg:px-0'>
-            <h1 className='text-4xl lg:text-[58px]
-            font-semibold leading-none mb-6'>
-                <span className='text-violet-700'>Rent </span> 
-                Your Dream House With US.
-            </h1>
-            <p className='max-w-[480px] mb-8'>
-                {/* Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt 
-                ut labore et dolore magna aliqua.*/}
-                Find your dream home, move in now, 
-                and rent with built-in savings for 
-                your down payment. In 3 years or 
-                less, you're ready to buy.
-            </p>
-            </div>
+    // Fetch houses from Supabase
+    const fetchHouses = async () => {
+        try {
+            setLoading(true);
+            const { data, error } = await supabaseClient
+                .from('properties')
+                .select('*');
 
-            {/* image */}
-            <div className='hidden flex-1 
-            lg:flex justify-end items-end'>
-            <img src={Image}/>
-            </div>
+            if (error) throw error;
 
-        </div>
-        <Search />
-        </section>
-    )
+            setHouses(data || []);
+        } catch (err) {
+            setError('Failed to load houses. Please try again later.');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    export default Banner;
+    useEffect(() => {
+        fetchHouses();
+    }, []);
+
+    return (
+        <section className='h-full mb-0 xl:mb-5'>
+            <div className='flex flex-col lg:flex-row'>
+                <div className='lg:ml-8 xl:ml-[135px] flex flex-col items-center lg:items-start text-center lg:text-left justify-center flex-1 px-4 lg:px-0'>
+                    <h1 className='text-4xl lg:text-[58px] font-semibold leading-none mb-6'>
+                        <span className='text-violet-700'>Rent </span> 
+                        Your Dream House With Us.
+                    </h1>
+                    <p className='max-w-[480px] mb-8'>
+                        Find your dream home, move in now, 
+                        and rent with built-in savings for 
+                        your down payment. In 3 years or 
+                        less, you're ready to buy.
+                    </p>
+                </div>
+
+                {/* Image */}
+                <div className='hidden flex-1 lg:flex justify-end items-end'>
+                    <img src={Image} alt="House banner" />
+                </div>
+            </div>
+            
+            {/* {loading ? (
+                <p className="text-center">Loading houses...</p>
+            ) : error ? (
+                <p className="text-red-500 text-center">{error}</p>
+            ) : (
+                <Search houses={houses} setResults={setHouses} />
+            )} */}
+        </section>
+    );
+};
+
+export default Banner;
