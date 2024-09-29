@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useSupabaseClient from "../backend/supabase/supabase";
 import "@/assets/style/pages/listing.css";
 import { useAuth } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const Listing = () => {
   const [properties, setProperties] = useState();
@@ -97,9 +98,16 @@ const Listing = () => {
       key: "actions",
       render: (_, record) => (
         <Space size="middle">
-          <Button color="primary" variant="solid">
-            Edit
-          </Button>
+          <Link
+            to={`/MyProperty/edit/${record.key}`}
+            className="text-gray-600 hover:text-indigo-500"
+            aria-label="editProperty"
+          >
+            <Button color="primary" variant="solid">
+              Edit
+            </Button>
+          </Link>
+
           <Popconfirm
             title="Delete the property"
             description="Are you sure to delete this property?"
