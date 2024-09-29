@@ -54,7 +54,7 @@ const Navbar = () => {
               isMenuOpen ? "block mt-20 md:mt-0 " : "hidden mt-0"
             } absolute md:static  w-full md:w-auto z-10`}
           >
-            <ul className="flex flex-col bg-gray-200 md:flex-row space-y-4 md:space-y-0 md:space-x-10 p-4 md:p-0">
+            <ul className="flex flex-col bg-gray-100 md:flex-row space-y-4 md:space-y-0 md:space-x-10 p-4 md:p-0">
               <li className="flex">
                 <Link
                   to="/"
