@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Image from "../../assets/img/house-banner.png";
 import Search from "./Search";
-import supabaseClient from '../../backend/supabase/supabase';
+import useSupabaseClient from '../../backend/supabase/supabase';
 
 const Banner = () => {
     const [houses, setHouses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+    const supabase = useSupabaseClient();
     // Fetch houses from Supabase
+
     const fetchHouses = async () => {
         try {
             setLoading(true);
-            const { data, error } = await supabaseClient
+            const { data, error } = await supabase
                 .from('properties')
                 .select('*');
 
@@ -28,8 +29,10 @@ const Banner = () => {
     };
 
     useEffect(() => {
-        fetchHouses();
-    }, []);
+        if(supabase){
+            fetchHouses();
+        }
+    }, [supabase]);
 
     return (
         <section className='h-full mb-0 xl:mb-5'>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import House from './House';
-import supabaseClient from '../../backend/supabase/supabase';
+import useSupabaseClient from '../../backend/supabase/supabase';
 import { Pagination } from 'antd';
 import Search from './Search';
 
@@ -15,6 +15,7 @@ function ListingMapView() {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
+    const supabase = useSupabaseClient();
 
     useEffect(() => {
         const fetchHouseData = async () => {
@@ -53,9 +54,11 @@ function ListingMapView() {
                 console.error("Error fetching data from Supabase:", err.message);
             }
         };
-    
-        fetchHouseData();
-    }, []);
+        if(supabase){
+            fetchHouseData();
+        }
+        
+    }, [supabase]);
     
     const handlePageChange = (page) => {
         setCurrentPage(page);

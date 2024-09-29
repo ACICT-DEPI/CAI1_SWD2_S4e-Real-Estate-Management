@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RiSearch2Line } from "react-icons/ri";
 import House from './House'; // Import the House component
-import supabaseClient from '../../backend/supabase/supabase';
+import useSupabaseClient from '../../backend/supabase/supabase';
 import { Pagination } from 'antd';
 
 const capitalizeFirstLetter = (string) => {
@@ -15,11 +15,11 @@ const Search = ({ houses }) => {
     const [input, setInput] = useState("");
     const [error, setError] = useState('');
     const [filteredHouses, setFilteredHouses] = useState(houses);
-
+    const supabase = useSupabaseClient();
     const fetchData = async (value) => {
         if (value && value.length > 0) {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('properties')
                     .select('*')
                     .ilike('address', `%${value}%`);

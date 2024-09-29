@@ -16,6 +16,7 @@ const PropertyDetails = () => {
     const [house, setHouse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const supabase = useSupabaseClient();
     useEffect(() => {
         const fetchHouseData = async () => {
             try {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import supabaseClient from '../../backend/supabase/supabase';
+import useSupabaseClient from '../../backend/supabase/supabase';
 
 export const HouseContext = createContext();
 
@@ -14,7 +14,7 @@ const HouseContextProvider = ({ children }) => {
     // Fetch houses from Supabase
     const fetchHouses = async () => {
         setLoading(true);
-        const { data, error } = await supabaseClient
+        const { data, error } = await supabase
             .from('properties') // Corrected table name
             .select('*');
 
