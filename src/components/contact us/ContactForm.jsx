@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Input, Button, Card, Form, Typography, message } from "antd";
 import useSupabaseClient from "@/backend/supabase/supabase";
-import emailjs from 'emailjs-com';
+import emailjs from "emailjs-com";
 const { TextArea } = Input;
 const { Title } = Typography;
 
 export default function ContactForm() {
   const [subject, setSubject] = useState("");
-  const [email, setEmail] = useState(""); // New email state
+  const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -35,7 +35,7 @@ export default function ContactForm() {
       newErrors.email = "Enter a valid email address.";
     }
 
-    if(!body){
+    if (!body) {
       newErrors.body = "body is required.";
     }
     if (numericOnlyRegex.test(body)) {
@@ -75,29 +75,34 @@ export default function ContactForm() {
         lastName,
         seller_phone: phone,
       };
-      emailjs.send(
-        'service_14n2tub',     // Replace with your EmailJS service ID
-        'template_7jh3nau',    // Replace with your EmailJS template ID
-        formData,
-        'wTm29m44MLbQaNTd3'         // Replace with your EmailJS user ID
-      ).then((response) => {
-        console.log('Email sent successfully!', response.status, response.text);
-        message.success("Form submitted successfully");
-        setFirstName('')
-        setLastName('')
-        setSubject('')
-        setEmail('')
-        setBody('')
-        setPhone('')
-        
-      }).catch((err) => {
-        console.error('Failed to send email.', err);
-        message.error("server side error, please try again later");
-      });
+      emailjs
+        .send(
+          "service_14n2tub",
+          "template_7jh3nau",
+          formData,
+          "wTm29m44MLbQaNTd3"
+        )
+        .then((response) => {
+          console.log(
+            "Email sent successfully!",
+            response.status,
+            response.text
+          );
+          message.success("Form submitted successfully");
+          setFirstName("");
+          setLastName("");
+          setSubject("");
+          setEmail("");
+          setBody("");
+          setPhone("");
+        })
+        .catch((err) => {
+          console.error("Failed to send email.", err);
+          message.error("server side error, please try again later");
+        });
     } else {
       message.error("Please fix the errors.");
     }
-
   };
 
   return (

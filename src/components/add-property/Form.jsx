@@ -44,7 +44,7 @@ export default function AntdForm({ property, id }) {
   const englishRegex = /^[a-zA-Z0-9\s.,'-]+$/;
   const numericOnlyRegex = /^\d+$/;
   const zipCodeRegex = /^\d{3,9}$/;
-  const englishLettersOnlyRegex = /^[a-zA-Z\s]+$/;
+  const englishLettersNumericOnlyRegex = /^[a-zA-Z0-9\s]+$/;
   const egyptianPhoneRegex = /^(?:\+20|0020)?01[0125]\d{8}$/;
 
   useEffect(() => {
@@ -98,8 +98,10 @@ export default function AntdForm({ property, id }) {
       newErrors.state = "State is required.";
     }
 
-    if (city && !englishLettersOnlyRegex.test(city)) {
-      newErrors.city = "Field must contain only English letters.";
+    if (city && numericOnlyRegex.test(city)) {
+      newErrors.city = "City cannot consist only of numbers.";
+    } else if (city && !englishLettersNumericOnlyRegex.test(city)) {
+      newErrors.city = "Field should contain only English letters and numbers.";
     }
 
     if (zip && !zipCodeRegex.test(zip)) {
