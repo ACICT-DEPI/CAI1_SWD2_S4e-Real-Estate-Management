@@ -12,7 +12,7 @@
     }
 
     .dropdown {
-        @apply w-full lg:max-w-[296px] cursor-pointer;
+        @apply w-12 lg:max-w-[296px] cursor-pointer;
     }
 
     .dropdown-btn {
@@ -28,7 +28,7 @@
     }
 
     .dropdown-menu {
-        @apply px-6 py-8 text-[15px] space-y-6 shadow-md bg-white absolute w-full list-none rounded-b-lg; /* Use custom z-1000 class */
+        @apply px-6 py-8 text-[15px] space-y-6 shadow-md bg-white absolute w-10 list-none rounded-b-lg; /* Use custom z-1000 class */
     }
 
     /* Leaflet marker fix */

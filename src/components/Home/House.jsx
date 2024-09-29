@@ -9,6 +9,7 @@ const House = ({ house }) => {
         image,
         type,
         country,
+        state,
         address,
         bedrooms,
         bathrooms,
@@ -20,36 +21,39 @@ const House = ({ house }) => {
 
     return (
         <Link to={`/property/${propertyId}`}>
-            <div className='bg-white shadow-1 p-5 w-full max-w-[350px] mx-auto mb-12 cursor-pointer hover:shadow-2xl transition rounded-lg'>
+            <div className='bg-white shadow-lg p-6 w-full max-w-[400px] mx-auto mb-12 cursor-pointer hover:shadow-2xl transition rounded-lg hover:scale-105'>
                 <img 
-                    className='rounded-md mb-8 w-full h-[250px] object-cover'
+                    className='rounded-md mb-6 w-full h-[250px] object-cover transition-transform duration-300 transform hover:scale-110'
                     src={image} 
                     alt='house' 
                 />
                 <div className='mb-4 flex gap-x-2 text-sm'>
-                    <div className='bg-green-500 rounded-full text-white font-primary px-3 py-2'>{type}</div>
-                    <div className='bg-violet-500 rounded-full text-white font-primary px-3 py-2'>{country}</div>
+                    <div className='bg-green-600 rounded-full text-white font-medium px-3 py-1 shadow'>{type}</div>
+                    <div className='bg-violet-600 rounded-full text-white font-medium px-3 py-1 shadow'>{state}</div>
                 </div>
-                <div className='flex text-lg font-semibold max-w-[260px]'><MapPin className='mr-2'/> {address}</div>
+                <div className='flex text-lg font-semibold text-gray-800 max-w-[260px]'>
+                    <MapPin className='mr-2 text-violet-700' /> 
+                    <span>{address}</span>
+                </div>
                 <div className='flex gap-x-4 my-4'>
-                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-20 justify-center items-center'>
+                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center transition duration-300 hover:bg-slate-300'>
                         <BiBed className='text-[20px]' />
                         <span>{bedrooms}</span>
                     </div>
-                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-20 justify-center items-center'>
+                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center transition duration-300 hover:bg-slate-300'>
                         <BiBath className='text-[20px]' />
                         <span>{bathrooms}</span>
                     </div>
-                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center'>
+                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center transition duration-300 hover:bg-slate-300'>
                         <FaParking className='text-[20px]' />
                         <span>{parking}</span>
                     </div>
-                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center'>
+                    <div className='flex gap-2 text-sm text-gray-600 bg-slate-200 rounded-md p-2 w-24 justify-center items-center transition duration-300 hover:bg-slate-300'>
                         <BiArea className='text-[20px]' />
                         <span>{surface}</span>
                     </div>
                 </div>
-                <div className='text-lg font-semibold text-violet-600 mb-4'>${price}</div>
+                <div className='text-xl font-semibold text-violet-600 mb-2'>${price}</div>
             </div>
         </Link>
     );
