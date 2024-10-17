@@ -22,7 +22,9 @@
 
 ### Screenshot
 
-![Desktop Preview](./src/assets/img/Screenshot.png)
+![Desktop Preview 1](./src/assets/img/Screenshot.png)
+![Desktop Preview 2](./src/assets/img/Screenshot2.png)
+![Desktop Preview 3](./src/assets/img/Screenshot3.png)
 
 ### Links
 
