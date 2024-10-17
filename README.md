@@ -1,8 +1,46 @@
-# React + Vite
+# React + Vite - Real Estate Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of contents
 
-Currently, two official plugins are available:
+- [Overview](#overview)
+  - [Team members](#team-members)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+- [Author](#author)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
+
+### Team members
+
+- Abdallah Edrees [Team-leader]
+- Shahd AlSayed
+- Emad Mostafa
+- Yousef Halawa
+- Rana Amr
+
+### Screenshot
+
+![Desktop Preview](./src/assets/img/Screenshot.png)
+
+### Links
+
+- Code URL: (https://github.com/abdallahedreeso/real-estate-management)
+
+- Presentation URL: (https://docs.google.com/presentation/d/18HFNo-JX4dboGwW9HEB05ByOMCMeOB_D/edit?usp=sharing&ouid=101104021309986710436&rtpof=true&sd=true)
+
+- Proposal URL: (https://docs.google.com/document/d/1vuSesYbvglFRYP84SxC5njGoCeFObM9x/edit?usp=sharing&ouid=101104021309986710436&rtpof=true&sd=true)
+
+## My process
+
+### Built with
+
+- React.js - Vite
+- Supabase
+- AntDesign & Tailwind
+- Clerk
+
+## Author
+
+- Component Crafterz
