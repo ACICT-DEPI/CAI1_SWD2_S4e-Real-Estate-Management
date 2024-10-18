@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import logo from "../../assets/Logo.svg";
 import { Button } from "antd";
 import {
   SignIn,
-  SignInButton,
   SignUp,
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/clerk-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { BriefcaseBusiness, Store } from "lucide-react";
+import { Store } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
