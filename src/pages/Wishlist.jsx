@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Pagination, Spin, Alert, Card } from "antd";
 import useSupabaseClient from "@/backend/supabase/supabase";
 import Search from "@/components/Home/Search";
@@ -100,11 +100,16 @@ const Wishlist = () => {
   }
 
   return (
-    <div className="mt-10">
-      <div className="flex flex-wrap gap-4 justify-center">
+    <div className="mt-10 px-10 md:px-20 lg:px-40">
+      <div className="wishlist__title ">
+        <h1 className="font-extrabold text-3xl text-center text-white bg-violet-700 rounded-lg px-16 py-5 mb-10">
+          My Wishlist
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {/* Render the current page of properties */}
         {currentHouses.map((house) => (
-          <Link to={`/property/${house.property_id}`}>
+          <Link key={house.property_id} to={`/property/${house.property_id}`}>
             <div className="bg-white shadow-lg p-6 w-full max-w-[400px] mx-auto mb-12 cursor-pointer hover:shadow-2xl transition rounded-lg hover:scale-105">
               <img
                 className="rounded-md mb-6 w-full h-[250px] object-cover transition-transform duration-300 transform hover:scale-110"

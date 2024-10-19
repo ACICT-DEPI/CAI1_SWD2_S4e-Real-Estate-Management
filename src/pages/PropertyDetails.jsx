@@ -192,7 +192,7 @@ const PropertyDetails = () => {
               <h2 className="font-bold text-3xl pb-3 text-violet-700">
                 ${house.price.toLocaleString()}
               </h2>
-              <h2 className="text-gray-600 text-lg flex pb-4">
+              <h2 className="text-gray-600 text-lg flex pb-4 w-44 md:w-full">
                 <MdLocationOn className="mr-1 text-violet-600" />
                 {house.address}, {house.state}, {house.zip_code}
               </h2>
@@ -283,15 +283,17 @@ const PropertyDetails = () => {
               onClick={handleWhatsAppClick}
               className="bg-violet-700 text-white p-3 rounded-md shadow hover:bg-violet-600 transition"
             >
-              <div className="flex items-center justify-center ">
+              <div className="flex flex-wrap items-center justify-center ">
                 Message Seller on
-                <img
-                  src={whatsappIcon}
-                  alt="Whatsapp icon"
-                  width="20px"
-                  className="mx-1"
-                />
-                WhatsApp: {house.seller_phone}
+                <div className="flex ">
+                  <img
+                    src={whatsappIcon}
+                    alt="Whatsapp icon"
+                    width="20px"
+                    className="mx-1"
+                  />
+                  WhatsApp: {house.seller_phone}
+                </div>
               </div>
             </button>
           </SignedIn>

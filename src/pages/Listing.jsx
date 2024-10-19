@@ -125,6 +125,7 @@ const Listing = () => {
       title: "Address",
       dataIndex: "address",
       key: "address",
+      width: 100,
     },
     {
       title: "Is available",
@@ -168,7 +169,7 @@ const Listing = () => {
   ];
 
   return (
-    <div className="listing px-40 mt-14">
+    <div className="listing px-10 md:px-28 lg:px-40 mt-14">
       <h1 className="font-extrabold text-3xl text-center text-white bg-violet-700 rounded-lg px-16 py-5 mb-10">
         My Properties
       </h1>
@@ -178,7 +179,11 @@ const Listing = () => {
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <Table dataSource={properties} columns={columns} />
+        <Table
+          scroll={{ x: "max-content" }}
+          dataSource={properties}
+          columns={columns}
+        />
       )}
     </div>
   );
