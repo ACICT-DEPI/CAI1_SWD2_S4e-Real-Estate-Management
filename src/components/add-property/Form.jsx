@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Input,
   Select,
@@ -9,6 +9,7 @@ import {
   message,
   Space,
   Upload,
+  Spin,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import InsertData from "@/api/add-property/InsertData";
@@ -21,6 +22,7 @@ const { Option } = Select;
 const { Title } = Typography;
 
 export default function AntdForm({ property, id }) {
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [propertyType, setPropertyType] = useState(null);
@@ -102,7 +104,6 @@ export default function AntdForm({ property, id }) {
       newErrors.city = "City cannot consist only of numbers.";
     } else if (city && !englishLettersNumericOnlyRegex.test(city)) {
       newErrors.city = "Field should contain only English letters and numbers.";
-
     }
 
     if (zip && !zipCodeRegex.test(zip)) {
@@ -158,7 +159,7 @@ export default function AntdForm({ property, id }) {
   };
 
   const customRequest = async ({ file, onSuccess, onError }) => {
-    console.log(images);                                                                      
+    console.log(images);
     try {
       const imageName = `${file.uid}`;
       const { data, error } = await supabase.storage
@@ -223,6 +224,7 @@ export default function AntdForm({ property, id }) {
         images: imageUrls,
         file_list: images,
       };
+      setLoading(true);
       let response;
       if (property && id) {
         response = await UpdateData(supabase, propertyData, id);
@@ -230,6 +232,7 @@ export default function AntdForm({ property, id }) {
         response = await InsertData(supabase, propertyData);
       }
       if (response) {
+        setLoading(false);
         message.success("Form submitted successfully");
         navigate("/MyProperty");
       } else {
@@ -242,221 +245,225 @@ export default function AntdForm({ property, id }) {
 
   return (
     <>
-      <Card style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}>
-        <Title level={3}>Post an ad</Title>
-        <Form layout="vertical" onFinish={handleSubmit}>
-          <Form.Item
-            label="Title"
-            validateStatus={errors.title ? "error" : ""}
-            help={errors.title}
-          >
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Price"
-            validateStatus={errors.price ? "error" : ""}
-            help={errors.price}
-          >
-            <Input
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-          <Form.Item
-            label="Property Type"
-            validateStatus={errors.propertyType ? "error" : ""}
-            help={errors.propertyType}
-          >
-            <Select
-              value={propertyType}
-              onChange={setPropertyType}
-              placeholder="Required"
+      <Spin spinning={loading} size="large" className="mt-40">
+        <Card
+          style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}
+        >
+          <Title level={3}>Post an ad</Title>
+          <Form layout="vertical" onFinish={handleSubmit}>
+            <Form.Item
+              label="Title"
+              validateStatus={errors.title ? "error" : ""}
+              help={errors.title}
             >
-              <Option value="rent">For Rent</Option>
-              <Option value="sale">For Sale</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            label="Description"
-            validateStatus={errors.description ? "error" : ""}
-            help={errors.description}
-          >
-            <TextArea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional..."
-            />
-          </Form.Item>
-          <div className="flex justify-between gap-2">
-            <div className="flex flex-col w-1/2">
-              <Form.Item label="Country">
-                <Select value={country} onChange={setCountry}>
-                  <Option value="egypt">Egypt</Option>
-                </Select>
-              </Form.Item>
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
 
-              <Form.Item
-                label="State"
-                validateStatus={errors.state ? "error" : ""}
-                help={errors.state}
+            <Form.Item
+              label="Price"
+              validateStatus={errors.price ? "error" : ""}
+              help={errors.price}
+            >
+              <Input
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+            <Form.Item
+              label="Property Type"
+              validateStatus={errors.propertyType ? "error" : ""}
+              help={errors.propertyType}
+            >
+              <Select
+                value={propertyType}
+                onChange={setPropertyType}
+                placeholder="Required"
               >
-                <Select
-                  value={state}
-                  onChange={setState}
-                  placeholder="Required"
+                <Option value="rent">For Rent</Option>
+                <Option value="sale">For Sale</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              validateStatus={errors.description ? "error" : ""}
+              help={errors.description}
+            >
+              <TextArea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Optional..."
+              />
+            </Form.Item>
+            <div className="flex justify-between gap-2">
+              <div className="flex flex-col w-1/2">
+                <Form.Item label="Country">
+                  <Select value={country} onChange={setCountry}>
+                    <Option value="egypt">Egypt</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  label="State"
+                  validateStatus={errors.state ? "error" : ""}
+                  help={errors.state}
                 >
-                  <Option value="cairo">Cairo</Option>
-                  <Option value="giza">Giza</Option>
-                  <Option value="alexandria">Alexandria</Option>
-                  <Option value="aswan">Aswan</Option>
-                  <Option value="asyut">Asyut</Option>
-                  <Option value="beheira">Beheira</Option>
-                  <Option value="beni_suef">Beni Suef</Option>
-                  <Option value="dakahlia">Dakahlia</Option>
-                  <Option value="damietta">Damietta</Option>
-                  <Option value="faiyum">Faiyum</Option>
-                  <Option value="gharbia">Gharbia</Option>
-                  <Option value="ismailia">Ismailia</Option>
-                  <Option value="kafr_el_sheikh">Kafr El Sheikh</Option>
-                  <Option value="luxor">Luxor</Option>
-                  <Option value="matruh">Matruh</Option>
-                  <Option value="minya">Minya</Option>
-                  <Option value="monufia">Monufia</Option>
-                  <Option value="new_valley">New Valley</Option>
-                  <Option value="north_sinai">North Sinai</Option>
-                  <Option value="port_said">Port Said</Option>
-                  <Option value="qalyubia">Qalyubia</Option>
-                  <Option value="qanatir">Qena</Option>
-                  <Option value="red_sea">Red Sea</Option>
-                  <Option value="sharqia">Sharqia</Option>
-                  <Option value="sohag">Sohag</Option>
-                  <Option value="south_sinai">South Sinai</Option>
-                  <Option value="suez">Suez</Option>
-                </Select>
-              </Form.Item>
-            </div>
-            <div className="flex flex-col w-1/2">
-              <Form.Item
-                label="City"
-                validateStatus={errors.city ? "error" : ""}
-                help={errors.city}
-              >
-                <Input
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  placeholder="Optional..."
-                />
-              </Form.Item>
+                  <Select
+                    value={state}
+                    onChange={setState}
+                    placeholder="Required"
+                  >
+                    <Option value="cairo">Cairo</Option>
+                    <Option value="giza">Giza</Option>
+                    <Option value="alexandria">Alexandria</Option>
+                    <Option value="aswan">Aswan</Option>
+                    <Option value="asyut">Asyut</Option>
+                    <Option value="beheira">Beheira</Option>
+                    <Option value="beni_suef">Beni Suef</Option>
+                    <Option value="dakahlia">Dakahlia</Option>
+                    <Option value="damietta">Damietta</Option>
+                    <Option value="faiyum">Faiyum</Option>
+                    <Option value="gharbia">Gharbia</Option>
+                    <Option value="ismailia">Ismailia</Option>
+                    <Option value="kafr_el_sheikh">Kafr El Sheikh</Option>
+                    <Option value="luxor">Luxor</Option>
+                    <Option value="matruh">Matruh</Option>
+                    <Option value="minya">Minya</Option>
+                    <Option value="monufia">Monufia</Option>
+                    <Option value="new_valley">New Valley</Option>
+                    <Option value="north_sinai">North Sinai</Option>
+                    <Option value="port_said">Port Said</Option>
+                    <Option value="qalyubia">Qalyubia</Option>
+                    <Option value="qanatir">Qena</Option>
+                    <Option value="red_sea">Red Sea</Option>
+                    <Option value="sharqia">Sharqia</Option>
+                    <Option value="sohag">Sohag</Option>
+                    <Option value="south_sinai">South Sinai</Option>
+                    <Option value="suez">Suez</Option>
+                  </Select>
+                </Form.Item>
+              </div>
+              <div className="flex flex-col w-1/2">
+                <Form.Item
+                  label="City"
+                  validateStatus={errors.city ? "error" : ""}
+                  help={errors.city}
+                >
+                  <Input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="Optional..."
+                  />
+                </Form.Item>
 
-              <Form.Item
-                label="Zip Code"
-                validateStatus={errors.zip ? "error" : ""}
-                help={errors.zip}
-              >
-                <Input
-                  value={zip}
-                  onChange={(e) => setZip(e.target.value)}
-                  placeholder="Optional..."
-                />
-              </Form.Item>
+                <Form.Item
+                  label="Zip Code"
+                  validateStatus={errors.zip ? "error" : ""}
+                  help={errors.zip}
+                >
+                  <Input
+                    value={zip}
+                    onChange={(e) => setZip(e.target.value)}
+                    placeholder="Optional..."
+                  />
+                </Form.Item>
+              </div>
             </div>
-          </div>
-          <Form.Item
-            label="Address"
-            validateStatus={errors.address ? "error" : ""}
-            help={errors.address}
-          >
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-          <div className="flex justify-between gap-2">
-            <div className="flex flex-col w-1/2">
-              <Form.Item
-                label="Number of Bedrooms"
-                validateStatus={errors.bedrooms ? "error" : ""}
-                help={errors.bedrooms}
-              >
-                <Input
-                  value={bedrooms}
-                  onChange={(e) => setBedrooms(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Number of Bathrooms"
-                validateStatus={errors.bathrooms ? "error" : ""}
-                help={errors.bathrooms}
-              >
-                <Input
-                  value={bathrooms}
-                  onChange={(e) => setBathrooms(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
-            </div>
-            <div className="flex flex-col w-1/2">
-              <Form.Item
-                label="Number of Parking Spaces"
-                validateStatus={errors.parkingSpaces ? "error" : ""}
-                help={errors.parkingSpaces}
-              >
-                <Input
-                  value={parkingSpaces}
-                  onChange={(e) => setParkingSpaces(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Surface Area"
-                validateStatus={errors.surfaceArea ? "error" : ""}
-                help={errors.surfaceArea}
-              >
-                <Input
-                  value={surfaceArea}
-                  onChange={(e) => setSurfaceArea(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
-            </div>
-          </div>
-          <Form.Item
-            label="Phone Number"
-            validateStatus={errors.phoneNumber ? "error" : ""}
-            help={errors.phoneNumber}
-          >
-            <Input
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-
-          <Upload {...props} customRequest={customRequest}>
-            <Button icon={<UploadOutlined />}>Upload</Button>
-          </Upload>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              className="mt-2 bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-700"
+            <Form.Item
+              label="Address"
+              validateStatus={errors.address ? "error" : ""}
+              help={errors.address}
             >
-              Save
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+              <Input
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+            <div className="flex justify-between gap-2">
+              <div className="flex flex-col w-1/2">
+                <Form.Item
+                  label="Number of Bedrooms"
+                  validateStatus={errors.bedrooms ? "error" : ""}
+                  help={errors.bedrooms}
+                >
+                  <Input
+                    value={bedrooms}
+                    onChange={(e) => setBedrooms(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Number of Bathrooms"
+                  validateStatus={errors.bathrooms ? "error" : ""}
+                  help={errors.bathrooms}
+                >
+                  <Input
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex flex-col w-1/2">
+                <Form.Item
+                  label="Number of Parking Spaces"
+                  validateStatus={errors.parkingSpaces ? "error" : ""}
+                  help={errors.parkingSpaces}
+                >
+                  <Input
+                    value={parkingSpaces}
+                    onChange={(e) => setParkingSpaces(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Surface Area"
+                  validateStatus={errors.surfaceArea ? "error" : ""}
+                  help={errors.surfaceArea}
+                >
+                  <Input
+                    value={surfaceArea}
+                    onChange={(e) => setSurfaceArea(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+              </div>
+            </div>
+            <Form.Item
+              label="Phone Number"
+              validateStatus={errors.phoneNumber ? "error" : ""}
+              help={errors.phoneNumber}
+            >
+              <Input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+
+            <Upload {...props} customRequest={customRequest}>
+              <Button icon={<UploadOutlined />}>Upload</Button>
+            </Upload>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                className="mt-2 bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-700"
+              >
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Spin>
     </>
   );
 }

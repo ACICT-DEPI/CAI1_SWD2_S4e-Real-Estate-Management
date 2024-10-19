@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Input, Button, Card, Form, Typography, message } from "antd";
-import useSupabaseClient from "@/backend/supabase/supabase";
+import { useState } from "react";
+import { Input, Button, Card, Form, Typography, message, Spin } from "antd";
 import emailjs from "emailjs-com";
 const { TextArea } = Input;
 const { Title } = Typography;
 
 export default function ContactForm() {
+  const [loading, setLoading] = useState(false);
   const [subject, setSubject] = useState("");
   const [email, setEmail] = useState("");
   const [body, setBody] = useState("");
@@ -75,6 +75,7 @@ export default function ContactForm() {
         lastName,
         seller_phone: phone,
       };
+      setLoading(true);
       emailjs
         .send(
           "service_14n2tub",
@@ -83,6 +84,7 @@ export default function ContactForm() {
           "wTm29m44MLbQaNTd3"
         )
         .then((response) => {
+          setLoading(false);
           console.log(
             "Email sent successfully!",
             response.status,
@@ -107,95 +109,99 @@ export default function ContactForm() {
 
   return (
     <>
-      <Card style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}>
-        <Title level={3}>Contact Us</Title>
-        <Form layout="vertical" onFinish={handleSubmit}>
-          <div className="flex justify-between gap-2">
-            <div className="flex flex-col w-1/2">
-              <Form.Item
-                label="First Name"
-                validateStatus={errors.firstName ? "error" : ""}
-                help={errors.firstName}
-              >
-                <Input
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
+      <Spin spinning={loading} size="large" className="mt-24">
+        <Card
+          style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}
+        >
+          <Title level={3}>Contact Us</Title>
+          <Form layout="vertical" onFinish={handleSubmit}>
+            <div className="flex justify-between gap-2">
+              <div className="flex flex-col w-1/2">
+                <Form.Item
+                  label="First Name"
+                  validateStatus={errors.firstName ? "error" : ""}
+                  help={errors.firstName}
+                >
+                  <Input
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex flex-col w-1/2">
+                <Form.Item
+                  label="Last Name"
+                  validateStatus={errors.lastName ? "error" : ""}
+                  help={errors.lastName}
+                >
+                  <Input
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    placeholder="Required..."
+                  />
+                </Form.Item>
+              </div>
             </div>
-            <div className="flex flex-col w-1/2">
-              <Form.Item
-                label="Last Name"
-                validateStatus={errors.lastName ? "error" : ""}
-                help={errors.lastName}
-              >
-                <Input
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Required..."
-                />
-              </Form.Item>
-            </div>
-          </div>
-          <Form.Item
-            label="Email"
-            validateStatus={errors.email ? "error" : ""}
-            help={errors.email}
-          >
-            <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-          <Form.Item
-            label="Subject"
-            validateStatus={errors.subject ? "error" : ""}
-            help={errors.subject}
-          >
-            <Input
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-          <Form.Item
-            label="Phone Number"
-            validateStatus={errors.phoneNumber ? "error" : ""}
-            help={errors.phoneNumber}
-          >
-            <Input
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Required..."
-            />
-          </Form.Item>
-          <Form.Item
-            label="body"
-            validateStatus={errors.body ? "error" : ""}
-            help={errors.body}
-          >
-            <TextArea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              placeholder="Required..."
-              rows={8}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="Dashed"
-              htmlType="submit"
-              block
-              className="mt-2 bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-500"
+            <Form.Item
+              label="Email"
+              validateStatus={errors.email ? "error" : ""}
+              help={errors.email}
             >
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+              <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+            <Form.Item
+              label="Subject"
+              validateStatus={errors.subject ? "error" : ""}
+              help={errors.subject}
+            >
+              <Input
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+            <Form.Item
+              label="Phone Number"
+              validateStatus={errors.phoneNumber ? "error" : ""}
+              help={errors.phoneNumber}
+            >
+              <Input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Required..."
+              />
+            </Form.Item>
+            <Form.Item
+              label="body"
+              validateStatus={errors.body ? "error" : ""}
+              help={errors.body}
+            >
+              <TextArea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder="Required..."
+                rows={8}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="Dashed"
+                htmlType="submit"
+                block
+                className="mt-2 bg-indigo-500 text-white hover:bg-indigo-600 active:bg-indigo-500"
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Spin>
     </>
   );
 }
