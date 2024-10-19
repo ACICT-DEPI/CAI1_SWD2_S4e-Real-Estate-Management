@@ -9,6 +9,7 @@ import ContactUs from "./pages/ContactUsPage";
 import About from "./pages/About";
 import EditProperty from "./pages/EditProperty";
 import ProtectRoute from "./components/ProtectedRoute/ProtectRoute";
+import Wishlist from "./pages/Wishlist";
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -42,6 +43,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectRoute>
             <EditProperty />
+          </ProtectRoute>
+        ),
+      },
+      {
+        path: "/Wishlist",
+        element: (
+          <ProtectRoute>
+            <Wishlist />
           </ProtectRoute>
         ),
       },

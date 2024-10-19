@@ -17,6 +17,7 @@ import UpdateData from "@/api/update-property/UpdateData";
 
 import useSupabaseClient from "@/backend/supabase/supabase";
 import { UploadOutlined } from "@ant-design/icons";
+import { Plus } from "lucide-react";
 const { TextArea } = Input;
 const { Option } = Select;
 const { Title } = Typography;
@@ -249,7 +250,7 @@ export default function AntdForm({ property, id }) {
         <Card
           style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}
         >
-          <Title level={3}>Post an ad</Title>
+          <Title level={3}>Post Your Ad</Title>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item
               label="Title"

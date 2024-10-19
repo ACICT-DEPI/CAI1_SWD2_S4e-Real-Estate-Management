@@ -9,7 +9,7 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Store } from "lucide-react";
+import { Heart, Store } from "lucide-react";
 
 const Navbar = () => {
   // const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,6 +44,9 @@ const Navbar = () => {
 
   const handleOpenMyProp = () => {
     navigate("/MyProperty");
+  };
+  const handleOpenWishlist = () => {
+    navigate("/Wishlist");
   };
   useEffect(() => {
     // Check if the current URL has the 'sign-in' query parameter
@@ -203,6 +206,13 @@ const Navbar = () => {
                     label="My Properties"
                     labelIcon={<Store size={15} />}
                     onClick={handleOpenMyProp}
+                  />
+                </UserButton.MenuItems>
+                <UserButton.MenuItems>
+                  <UserButton.Action
+                    label="Wishlist"
+                    labelIcon={<Heart size={15} />}
+                    onClick={handleOpenWishlist}
                   />
                 </UserButton.MenuItems>
               </UserButton>
