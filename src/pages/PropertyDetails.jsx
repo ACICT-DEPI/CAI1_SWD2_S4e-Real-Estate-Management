@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { BiBed, BiBath } from "react-icons/bi";
 import { MdLocationOn } from "react-icons/md";
 import { MdHome } from "react-icons/md";
-import { FaShare, FaClipboard, FaParking } from "react-icons/fa";
+import { FaShare, FaClipboard, FaParking, FaHeart } from "react-icons/fa";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { FaRulerCombined } from "react-icons/fa";
 import {
@@ -14,15 +14,18 @@ import {
 import Swal from "sweetalert2";
 import Map from "@/components/Home/Map";
 import useSupabaseClient from "../backend/supabase/supabase";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 import JoinUsCard from "@/components/JoinUs";
 import whatsappIcon from "../assets/img/icons/whatsapp.svg";
+import { message } from "antd";
 
 const PropertyDetails = () => {
   const { id } = useParams();
+  const { userId } = useAuth();
   const [house, setHouse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const supabase = useSupabaseClient();
   useEffect(() => {
     const fetchHouseData = async () => {
@@ -45,8 +48,25 @@ const PropertyDetails = () => {
         console.error("Error fetching data from Supabase:", err);
       }
     };
+
+    const fetchWishlistStatus = async () => {
+      const propertyId = id;
+
+      const { data, error } = await supabase
+        .from("wishlist")
+        .select("id")
+        .eq("property_id", propertyId)
+        .eq("user_id", userId);
+      if (error && error.code !== "PGRST116") {
+        console.error("Error fetching wishlist status", error);
+      } else if (data.length) {
+        setIsInWishlist(true);
+      }
+    };
+
     if (supabase && id) {
       fetchHouseData();
+      fetchWishlistStatus();
     }
   }, [id, supabase]);
 
@@ -93,6 +113,37 @@ const PropertyDetails = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  // Handle Wishlist Toggle
+  const toggleWishlist = async () => {
+    const propertyId = id;
+
+    if (isInWishlist) {
+      // Remove from wishlist
+      try {
+        await supabase.from("wishlist").delete().eq("property_id", propertyId);
+        console.log("Property deleted from wishlist successfully");
+        message.success("Property deleted from wishlist successfully");
+      } catch (err) {
+        console.error("Error deleting property from wishlist:", err.message);
+      } finally {
+        setIsInWishlist(false);
+      }
+    } else {
+      // Add to wishlist
+      const { error } = await supabase.from("wishlist").insert({
+        property_id: propertyId,
+        user_id: userId,
+      });
+      message.success("Property Added to your wishlist successfully");
+      if (error) {
+        console.error("Error adding to wishlist", error);
+      } else {
+        setIsInWishlist(true);
+        return "ok";
+      }
+    }
   };
 
   const handleWhatsAppClick = () => {
@@ -146,43 +197,56 @@ const PropertyDetails = () => {
                 {house.address}, {house.state}, {house.zip_code}
               </h2>
             </div>
-            <div className="relative">
-              <button
-                onClick={toggleDropdown}
-                className="flex gap-2 bg-violet-700 text-white rounded p-2 shadow hover:bg-violet-600 transition"
-              >
-                <FaShare /> Share
-              </button>
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg z-10">
-                  <div className="p-2">
-                    <button
-                      onClick={handleCopyLink}
-                      className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
-                    >
-                      <FaClipboard /> Copy Link
-                    </button>
-                    <FacebookShareButton
-                      url={shareUrl}
-                      className="flex items-center gap-2 text-gray-700 hover:bg-gray-200 w-full text-left p-2 rounded my-2"
-                    >
-                      <FaShare /> Share on Facebook
-                    </FacebookShareButton>
-                    <TwitterShareButton
-                      url={shareUrl}
-                      className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
-                    >
-                      <FaShare /> Share on Twitter
-                    </TwitterShareButton>
-                    <WhatsappShareButton
-                      url={shareUrl}
-                      className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
-                    >
-                      <FaShare /> Share on WhatsApp
-                    </WhatsappShareButton>
+
+            <div className="flex gap-6">
+              {/* Wishlist Icon */}
+              <SignedIn>
+                <button onClick={toggleWishlist}>
+                  <FaHeart
+                    className={`text-3xl transition ${
+                      isInWishlist ? "text-red-500" : "text-gray-400"
+                    } hover:scale-110`}
+                  />
+                </button>
+              </SignedIn>
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex gap-2 bg-violet-700 text-white rounded p-2 shadow hover:bg-violet-600 transition"
+                >
+                  <FaShare /> Share
+                </button>
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 bg-white border rounded shadow-lg z-10">
+                    <div className="p-2">
+                      <button
+                        onClick={handleCopyLink}
+                        className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
+                      >
+                        <FaClipboard /> Copy Link
+                      </button>
+                      <FacebookShareButton
+                        url={shareUrl}
+                        className="flex items-center gap-2 text-gray-700 hover:bg-gray-200 w-full text-left p-2 rounded my-2"
+                      >
+                        <FaShare /> Share on Facebook
+                      </FacebookShareButton>
+                      <TwitterShareButton
+                        url={shareUrl}
+                        className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
+                      >
+                        <FaShare /> Share on Twitter
+                      </TwitterShareButton>
+                      <WhatsappShareButton
+                        url={shareUrl}
+                        className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 w-full text-left p-2 rounded my-2"
+                      >
+                        <FaShare /> Share on WhatsApp
+                      </WhatsappShareButton>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
           <hr className="border-gray-300" />
