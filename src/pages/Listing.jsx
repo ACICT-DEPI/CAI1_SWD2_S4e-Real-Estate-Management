@@ -19,7 +19,7 @@ const Listing = () => {
       const { data, error } = await supabase
         .from("properties")
         .select(
-          "property_id, price, state, property_type, address, is_available"
+          "property_id,title, price, state, property_type, address, is_available"
         )
         .eq("seller_id", userId);
       if (error) {
@@ -33,6 +33,7 @@ const Listing = () => {
         key: property.property_id,
         property_type: property.property_type,
         price: property.price,
+        title: property.title,
         state: property.state,
         address: property.address,
         is_available: property.is_available,
@@ -101,9 +102,9 @@ const Listing = () => {
   // table header
   const columns = [
     {
-      title: "Property id",
-      key: "property_id",
-      dataIndex: "key",
+      title: "Title",
+      key: "title",
+      dataIndex: "title",
     },
     {
       title: "Property Type",

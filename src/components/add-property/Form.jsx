@@ -16,6 +16,7 @@ import UpdateData from "@/api/update-property/UpdateData";
 
 import useSupabaseClient from "@/backend/supabase/supabase";
 import { UploadOutlined } from "@ant-design/icons";
+import { Plus } from "lucide-react";
 const { TextArea } = Input;
 const { Option } = Select;
 const { Title } = Typography;
@@ -102,7 +103,6 @@ export default function AntdForm({ property, id }) {
       newErrors.city = "City cannot consist only of numbers.";
     } else if (city && !englishLettersNumericOnlyRegex.test(city)) {
       newErrors.city = "Field should contain only English letters and numbers.";
-
     }
 
     if (zip && !zipCodeRegex.test(zip)) {
@@ -158,7 +158,7 @@ export default function AntdForm({ property, id }) {
   };
 
   const customRequest = async ({ file, onSuccess, onError }) => {
-    console.log(images);                                                                      
+    console.log(images);
     try {
       const imageName = `${file.uid}`;
       const { data, error } = await supabase.storage
@@ -243,7 +243,7 @@ export default function AntdForm({ property, id }) {
   return (
     <>
       <Card style={{ maxWidth: "600px", margin: "20px auto", padding: "20px" }}>
-        <Title level={3}>Post an ad</Title>
+        <Title level={3}>Post Your Ad</Title>
         <Form layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Title"
